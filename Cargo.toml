@@ -1,0 +1,8 @@
+[package]
+name = "Vault"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rpassword = "7.3.1"
+termion = "4.0.2"
