@@ -2,6 +2,9 @@ use std::io::{self, Write};
 use termion::input::TermRead;
 use termion::raw::IntoRawMode;
 
+#[path = "encryption/encryption.rs"]
+mod encryption;
+
 fn ask_for_master_pswd() -> String {
     print!("Enter master password : ");
     io::stdout().flush().unwrap();
@@ -32,12 +35,19 @@ fn ask_for_master_pswd() -> String {
 
     write!(stdout, "\n\r").unwrap();
     stdout.flush().unwrap();
-    println!();
 
-    return password;
+    password
 }
 
 fn main() {
     let master_password = ask_for_master_pswd();
     println!("You entered the following : {}", master_password);
+
+    let plaintext = b"plaintext message";
+    println!("Plaintext: {:?}", plaintext);
+
+    let (ciphertext, salt, nonce) = encryption::encrypt(plaintext, &master_password);
+    println!("Ciphertext: {:?}", ciphertext);
+    println!("Salt: {:?}", salt);
+    println!("Nonce: {:?}", nonce);
 }
