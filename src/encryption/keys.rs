@@ -10,7 +10,7 @@ use sha2::Sha256;
 /// # Returns
 /// A vector of bytes representing the derived key
 pub fn gen_unique_key(pswd: &str, salt: &[u8]) -> Vec<u8> {
-    let mut key = vec![0u8, 32];
+    let mut key = vec![0u8; 32];
     pbkdf2_hmac::<Sha256>(pswd.as_bytes(), salt, 100_000, &mut key);
     key
 }
