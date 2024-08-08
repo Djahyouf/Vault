@@ -2,8 +2,16 @@ use std::io::{self, Write};
 use termion::input::TermRead;
 use termion::raw::IntoRawMode;
 
+#[path = "encryption/decryption.rs"]
+mod decryption;
 #[path = "encryption/encryption.rs"]
 mod encryption;
+#[path = "encryption/keys.rs"]
+mod keys;
+#[path = "encryption/nonce.rs"]
+mod nonce;
+#[path = "encryption/salt.rs"]
+mod salt;
 
 fn ask_for_master_pswd() -> String {
     print!("Enter master password : ");
@@ -50,4 +58,7 @@ fn main() {
     println!("Ciphertext: {:?}", ciphertext);
     println!("Salt: {:?}", salt);
     println!("Nonce: {:?}", nonce);
+
+    let decypheredtext = decryption::decrypt(&ciphertext, &master_password, &salt, &nonce);
+    println!("decypheredtext: {:?}", decypheredtext);
 }

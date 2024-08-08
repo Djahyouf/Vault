@@ -1,7 +1,6 @@
-mod keys;
-mod nonce;
-mod salt;
-
+use crate::keys;
+use crate::nonce;
+use crate::salt;
 use aes_gcm::aead::Aead;
 use aes_gcm::{Aes256Gcm, Key, KeyInit, Nonce};
 
