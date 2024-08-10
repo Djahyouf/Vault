@@ -2,6 +2,8 @@ use std::io::{self, Write};
 use termion::input::TermRead;
 use termion::raw::IntoRawMode;
 
+#[path = "data/data_block.rs"]
+mod data_block;
 #[path = "encryption/decryption.rs"]
 mod decryption;
 #[path = "encryption/encryption.rs"]
