@@ -1,3 +1,5 @@
+use base64::{decode, encode};
+use std::error::Error;
 use std::io::{self, Write};
 use termion::input::TermRead;
 use termion::raw::IntoRawMode;
@@ -34,5 +36,28 @@ pub fn ask_for_master_pswd() -> String {
     stdout.flush().unwrap();
 
     password
+}
+
+/// Converts a Vec<u8> to a Base64 encoded String.
+///
+/// # Parameters
+/// - `data`: The Vec<u8> to convert
+///
+/// # Returns
+/// A Base64 encoded String representing the data
+pub fn vec_u8_to_base64(data: Vec<u8>) -> String {
+    encode(data)
+}
+
+/// Converts a Base64 encoded String back to a Vec<u8>.
+///
+/// # Parameters
+/// - `encoded`: The Base64 encoded String
+///
+/// # Returns
+/// A Result containing the Vec<u8> or an error if decoding fails
+pub fn base64_to_vec_u8(encoded: &str) -> Result<Vec<u8>, Box<dyn Error>> {
+    let decoded = decode(encoded)?;
+    Ok(decoded)
 }
 

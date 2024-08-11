@@ -23,10 +23,21 @@ fn main() {
     println!("Plaintext: {}", str::from_utf8(plaintext).unwrap());
 
     let (ciphertext, salt, nonce) = encryption::encrypt(plaintext, &master_password);
-    println!("Ciphertext: {:?}", ciphertext);
+    let encoded_ciphertext = utils::vec_u8_to_base64(ciphertext.clone());
+    let decoded_ciphertext = utils::base64_to_vec_u8(&encoded_ciphertext);
+    println!("Ciphertext (Base64): {}", encoded_ciphertext);
+    println!(
+        "Ciphertext (Base64 back to a Vec<u8>): \n{:?}",
+        decoded_ciphertext
+    );
+    println!("Ciphertext: \n{:?}", ciphertext);
     println!("Salt: {:?}", salt);
     println!("Nonce: {:?}", nonce);
 
     let decypheredtext = decryption::decrypt(&ciphertext, &master_password, &salt, &nonce);
     println!("decypheredtext: {:?}", decypheredtext);
+    println!(
+        "decypheredtext: {}",
+        str::from_utf8(&decypheredtext).unwrap()
+    );
 }
