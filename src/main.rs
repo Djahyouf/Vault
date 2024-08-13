@@ -41,12 +41,31 @@ fn main() {
         "netflix".to_string(),
         "user".to_string(),
         ciphertext,
-        salt,
-        nonce,
+        salt.clone(),
+        nonce.clone(),
     );
 
     println!("data_block :\n {:?}", block);
 
+    println!("salt base64 : {}", utils::vec_u8_to_base64(salt.clone()));
+    println!(
+        "salt base64 len : {}",
+        utils::vec_u8_to_base64(salt.clone()).len()
+    );
+    println!("nonce base64 : {}", utils::vec_u8_to_base64(nonce.clone()));
+    println!(
+        "nonce base64 len : {}",
+        utils::vec_u8_to_base64(nonce.clone()).len()
+    );
+
     let written_form: String = data_block_manager::data_block_2_storing_format(&block);
     println!("written form : {}", written_form);
+
+    println!();
+
+    let block_from_string = data_block_manager::storing_format_2_data_block(&written_form);
+    println!(
+        "data_block created from string format :\n {:?}",
+        block_from_string
+    );
 }
