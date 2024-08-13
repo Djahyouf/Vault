@@ -40,4 +40,15 @@ fn main() {
         "decypheredtext: {}",
         str::from_utf8(&decypheredtext).unwrap()
     );
+
+    for i in 0..10 {
+        let temp = nonce::generate_nonce();
+        println!("nonce {} : {:?}", i, temp);
+        println!("nonce {} base64 : {}", i, utils::vec_u8_to_base64(temp));
+    }
+    for i in 0..10 {
+        let temp = salt::generate_salt(16);
+        println!("salt {} : {:?}", i, temp);
+        println!("salt {} base64 : {}", i, utils::vec_u8_to_base64(temp));
+    }
 }
