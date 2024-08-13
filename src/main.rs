@@ -1,7 +1,9 @@
 use std::str;
 
-#[path = "data/data_block.rs"]
+#[path = "data/DataBlock.rs"]
 mod data_block;
+#[path = "data/data_block_manager.rs"]
+mod data_block_manager;
 #[path = "encryption/decryption.rs"]
 mod decryption;
 #[path = "encryption/encryption.rs"]
@@ -19,17 +21,11 @@ fn main() {
     println!("You entered the following : {}", master_password);
 
     let plaintext = b"plaintext message";
-    println!("Plaintext: {:?}", plaintext);
     println!("Plaintext: {}", str::from_utf8(plaintext).unwrap());
 
     let (ciphertext, salt, nonce) = encryption::encrypt(plaintext, &master_password);
     let encoded_ciphertext = utils::vec_u8_to_base64(ciphertext.clone());
-    let decoded_ciphertext = utils::base64_to_vec_u8(&encoded_ciphertext);
     println!("Ciphertext (Base64): {}", encoded_ciphertext);
-    println!(
-        "Ciphertext (Base64 back to a Vec<u8>): \n{:?}",
-        decoded_ciphertext
-    );
     println!("Ciphertext: \n{:?}", ciphertext);
     println!("Salt: {:?}", salt);
     println!("Nonce: {:?}", nonce);
@@ -41,14 +37,16 @@ fn main() {
         str::from_utf8(&decypheredtext).unwrap()
     );
 
-    for i in 0..10 {
-        let temp = nonce::generate_nonce();
-        println!("nonce {} : {:?}", i, temp);
-        println!("nonce {} base64 : {}", i, utils::vec_u8_to_base64(temp));
-    }
-    for i in 0..10 {
-        let temp = salt::generate_salt(16);
-        println!("salt {} : {:?}", i, temp);
-        println!("salt {} base64 : {}", i, utils::vec_u8_to_base64(temp));
-    }
+    let block = data_block::DataBlock::new(
+        "netflix".to_string(),
+        "user".to_string(),
+        ciphertext,
+        salt,
+        nonce,
+    );
+
+    println!("data_block :\n {:?}", block);
+
+    let written_form: String = data_block_manager::data_block_2_storing_format(&block);
+    println!("written form : {}", written_form);
 }
