@@ -1,5 +1,3 @@
-use std::str;
-
 mod constants;
 #[path = "data/DataBlock.rs"]
 mod data_block;
@@ -25,7 +23,11 @@ fn main() {
     let mut master_password: String = String::new();
     if verification::master_exist() {
         master_password = utils::ask_for_master_pswd();
-        // Test if master is correct here.
+        if verification::verify_master(&master_password) {
+            println!("You entered the correct password");
+        } else {
+            println!("You entered a wrong password");
+        }
     } else {
         println!(
             "
@@ -49,8 +51,8 @@ fn main() {
 
         master_password = utils::ask_for_master_pswd();
         println!("You entered the following : {}", master_password);
-        // Store password here.
         verification::create_master_key(&master_password);
+        println!("Your master password has been sucessfully created !");
     }
 
     /*
