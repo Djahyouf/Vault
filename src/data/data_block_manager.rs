@@ -1,3 +1,4 @@
+use crate::constants::{BASE64_NONCE_LEN, BASE64_SALT_LEN};
 use crate::data_block::DataBlock;
 use crate::utils;
 
@@ -14,7 +15,7 @@ pub fn data_block_2_storing_format(data_block: &DataBlock) -> String {
     )
 }
 
-pub fn storing_format_2_data_block(s: &String) -> DataBlock {
+pub fn storing_format_2_data_block(s: &str) -> DataBlock {
     let parts: Vec<&str> = s.splitn(3, " | ").collect();
 
     if parts.len() != 3 {
@@ -25,9 +26,12 @@ pub fn storing_format_2_data_block(s: &String) -> DataBlock {
     let username = parts[1].to_string();
 
     let concatenated_data = parts[2];
-    let salt = utils::base64_to_vec_u8(&concatenated_data[..24]);
-    let nonce = utils::base64_to_vec_u8(&concatenated_data[24..24 + 16]);
-    let password = utils::base64_to_vec_u8(&concatenated_data[24 + 16..]);
+    let salt = utils::base64_to_vec_u8(&concatenated_data[..BASE64_SALT_LEN]);
+    let nonce = utils::base64_to_vec_u8(
+        &concatenated_data[BASE64_SALT_LEN..BASE64_SALT_LEN + BASE64_NONCE_LEN],
+    );
+    let password =
+        utils::base64_to_vec_u8(&concatenated_data[BASE64_SALT_LEN + BASE64_NONCE_LEN..]);
 
     DataBlock {
         url,

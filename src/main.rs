@@ -1,5 +1,6 @@
 use std::str;
 
+mod constants;
 #[path = "data/DataBlock.rs"]
 mod data_block;
 #[path = "data/data_block_manager.rs"]
@@ -15,10 +16,44 @@ mod nonce;
 #[path = "encryption/salt.rs"]
 mod salt;
 mod utils;
+#[path = "master/verification.rs"]
+mod verification;
 
 fn main() {
-    let master_password = utils::ask_for_master_pswd();
-    println!("You entered the following : {}", master_password);
+    println!("Welcome to Vault");
+
+    let mut master_password: String = String::new();
+    if verification::master_exist() {
+        master_password = utils::ask_for_master_pswd();
+        // Test if master is correct here.
+    } else {
+        println!(
+            "
+                    ********************************************************
+                    *                                                      *
+                    *          VAULT DETECTED NO MASTER PASSWORD           *
+                    *                                                      *
+                    *     You are about to create a new master password.   *
+                    *                                                      *
+                    *     WARNING: There is NO way to retrieve it!         *
+                    *                                                      *
+                    *     Make sure your master password is strong, as     *
+                    *     it will be used to encrypt all other passwords.  *
+                    *                                                      *
+                    *     DO NOT store your master password anywhere—      *
+                    *     engrave it into your brain!                      *
+                    *                                                      *
+                    ********************************************************
+            "
+        );
+
+        master_password = utils::ask_for_master_pswd();
+        println!("You entered the following : {}", master_password);
+        // Store password here.
+        verification::create_master_key(&master_password);
+    }
+
+    /*
 
     let plaintext = b"plaintext message";
     println!("Plaintext: {}", str::from_utf8(plaintext).unwrap());
@@ -68,4 +103,6 @@ fn main() {
         "data_block created from string format :\n {:?}",
         block_from_string
     );
+
+    */
 }
