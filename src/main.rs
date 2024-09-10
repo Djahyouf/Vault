@@ -1,3 +1,5 @@
+use std::str;
+
 mod constants;
 #[path = "data/DataBlock.rs"]
 mod data_block;
@@ -54,57 +56,54 @@ fn main() {
         verification::create_master_key(&master_password);
         println!("Your master password has been sucessfully created !");
     }
-
     /*
+        let plaintext = b"plaintext message";
+        println!("Plaintext: {}", str::from_utf8(plaintext).unwrap());
 
-    let plaintext = b"plaintext message";
-    println!("Plaintext: {}", str::from_utf8(plaintext).unwrap());
+        let (ciphertext, salt, nonce) = encryption::encrypt(plaintext, &master_password);
+        let encoded_ciphertext = utils::vec_u8_to_base64(ciphertext.clone());
+        println!("Ciphertext (Base64): {}", encoded_ciphertext);
+        println!("Ciphertext: \n{:?}", ciphertext);
+        println!("Salt: {:?}", salt);
+        println!("Nonce: {:?}", nonce);
 
-    let (ciphertext, salt, nonce) = encryption::encrypt(plaintext, &master_password);
-    let encoded_ciphertext = utils::vec_u8_to_base64(ciphertext.clone());
-    println!("Ciphertext (Base64): {}", encoded_ciphertext);
-    println!("Ciphertext: \n{:?}", ciphertext);
-    println!("Salt: {:?}", salt);
-    println!("Nonce: {:?}", nonce);
+        let decypheredtext = decryption::decrypt(&ciphertext, &master_password, &salt, &nonce);
+        println!("decypheredtext: {:?}", decypheredtext);
+        println!(
+            "decypheredtext: {}",
+            str::from_utf8(&decypheredtext).unwrap()
+        );
 
-    let decypheredtext = decryption::decrypt(&ciphertext, &master_password, &salt, &nonce);
-    println!("decypheredtext: {:?}", decypheredtext);
-    println!(
-        "decypheredtext: {}",
-        str::from_utf8(&decypheredtext).unwrap()
-    );
+        let block = data_block::DataBlock::new(
+            "netflix".to_string(),
+            "user".to_string(),
+            ciphertext,
+            salt.clone(),
+            nonce.clone(),
+        );
 
-    let block = data_block::DataBlock::new(
-        "netflix".to_string(),
-        "user".to_string(),
-        ciphertext,
-        salt.clone(),
-        nonce.clone(),
-    );
+        println!("data_block :\n {:?}", block);
 
-    println!("data_block :\n {:?}", block);
+        println!("salt base64 : {}", utils::vec_u8_to_base64(salt.clone()));
+        println!(
+            "salt base64 len : {}",
+            utils::vec_u8_to_base64(salt.clone()).len()
+        );
+        println!("nonce base64 : {}", utils::vec_u8_to_base64(nonce.clone()));
+        println!(
+            "nonce base64 len : {}",
+            utils::vec_u8_to_base64(nonce.clone()).len()
+        );
 
-    println!("salt base64 : {}", utils::vec_u8_to_base64(salt.clone()));
-    println!(
-        "salt base64 len : {}",
-        utils::vec_u8_to_base64(salt.clone()).len()
-    );
-    println!("nonce base64 : {}", utils::vec_u8_to_base64(nonce.clone()));
-    println!(
-        "nonce base64 len : {}",
-        utils::vec_u8_to_base64(nonce.clone()).len()
-    );
+        let written_form: String = data_block_manager::data_block_2_storing_format(&block);
+        println!("written form : {}", written_form);
 
-    let written_form: String = data_block_manager::data_block_2_storing_format(&block);
-    println!("written form : {}", written_form);
+        println!();
 
-    println!();
-
-    let block_from_string = data_block_manager::storing_format_2_data_block(&written_form);
-    println!(
-        "data_block created from string format :\n {:?}",
-        block_from_string
-    );
-
+        let block_from_string = data_block_manager::storing_format_2_data_block(&written_form);
+        println!(
+            "data_block created from string format :\n {:?}",
+            block_from_string
+        );
     */
 }

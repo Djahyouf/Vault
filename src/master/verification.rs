@@ -57,7 +57,7 @@ pub fn create_master_key(master: &str) {
     let salt_hex = utils::vec_u8_to_base64(salt);
     let key_hex = utils::vec_u8_to_base64(key);
 
-    write_master_key(format!("{}{}", salt_hex, key_hex));
+    let _ = write_master_key(format!("{}{}", salt_hex, key_hex));
 }
 
 fn write_master_key(key: String) -> io::Result<()> {

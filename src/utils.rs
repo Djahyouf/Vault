@@ -60,4 +60,3 @@ pub fn base64_to_vec_u8(encoded: &str) -> Result<Vec<u8>, Box<dyn Error>> {
     let decoded = decode(encoded)?;
     Ok(decoded)
 }
-
